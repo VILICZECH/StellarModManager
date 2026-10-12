@@ -26,7 +26,7 @@ public class AppUpdatingService
 
         if (latest <= current) return null;
 
-        return new UpdateInfo(latest, release.assets, release.body);
+        return new UpdateInfo(latest, release.assets, release.body, release.html_url);
     }
 
     public async Task DownloadAndInstallUpdateAsync(UpdateInfo update, IProgress<double> progress)
