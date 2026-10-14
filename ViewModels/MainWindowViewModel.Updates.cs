@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StellarModManager.Models;
 using StellarModManager.Services;
@@ -67,13 +69,25 @@ public partial class MainWindowViewModel
         if (AvailableUpdate is null) return;
         if (IsDownloadingUpdate) return;
 
+        if (!AppUpdatingService.IsInstalled())
+        {
+            if (App.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: Window window })
+            {
+                await window.Launcher.LaunchUriAsync(new Uri(AvailableUpdate.ReleaseUrl));
+            }
+
+            IsUpdatePanelOpen = false;
+            return;
+        }
+
+
         IsDownloadingUpdate = true;
         DownloadProgress = 0;
 
         var progress = new Progress<double>(percent => DownloadProgress = percent);
         await appUpdatingService.DownloadAndInstallUpdateAsync(AvailableUpdate, progress);
 
-        if (Avalonia.Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime lifetime)
+        if (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
         {
             lifetime.Shutdown();
         }

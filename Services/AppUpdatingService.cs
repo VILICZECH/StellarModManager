@@ -26,7 +26,7 @@ public class AppUpdatingService
 
         if (latest <= current) return null;
 
-        return new UpdateInfo(latest, release.assets, release.body);
+        return new UpdateInfo(latest, release.assets, release.body, release.html_url);
     }
 
     public async Task DownloadAndInstallUpdateAsync(UpdateInfo update, IProgress<double> progress)
@@ -72,7 +72,19 @@ public class AppUpdatingService
         }
 
         fileStream.Close();
+        var startinfo = new ProcessStartInfo(tempFilePath)
+        {
+            UseShellExecute = true,
+            //start silent install, but open application after completion
+            Arguments = $"/SILENT /SUPPRESSMSGBOXES /NORESTART /OPENWHENFINISHED"
+        };
 
-        Process.Start(new ProcessStartInfo(tempFilePath) { UseShellExecute = true });
+        Process.Start(startinfo);
+    }
+
+    //check if the app is installed or portable
+    public static bool IsInstalled()
+    {
+        return File.Exists(Path.Combine(AppContext.BaseDirectory, "unins000.exe"));
     }
 }
