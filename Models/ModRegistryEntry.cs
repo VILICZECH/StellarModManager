@@ -12,4 +12,7 @@ public class ModRegistryEntry
 
     [JsonPropertyName("metadata")]
     public string MetadataPath { get; set; } = "";
+
+    [JsonPropertyName("ai")]
+    public string Ai { get; set; } = "";
 }

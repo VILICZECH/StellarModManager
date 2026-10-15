@@ -26,5 +26,11 @@ namespace StellarModManager.Models
 
         [JsonPropertyName("images")]
         public List<string> Images { get; set; } = new();
+
+        [JsonPropertyName("ai")]
+        public string Ai { get; set; } = "";
+
+        [JsonPropertyName("tags")]
+        public List<string> Tags { get; set; } = new();
     }
 }

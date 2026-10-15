@@ -1,13 +1,17 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Media.Imaging;
+using CommunityToolkit.Mvvm.ComponentModel;
 using StellarModManager.Services;
 using System;
-using System.Text.Json.Serialization;
 using System.Collections.Generic; // Lists
-using Avalonia.Media.Imaging;
 using System.Collections.ObjectModel; // image collection
+using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace StellarModManager.Models;
+
+// Reuse for regular tags and ai tag
+public record ModTag(string Text, bool IsAssisted = false, bool IsVibecoded = false);
 
 public partial class OnlineModInfo : ModInfo
 {
@@ -51,6 +55,36 @@ public partial class OnlineModInfo : ModInfo
     public string? RepoUrl => string.IsNullOrEmpty(RepoOwner) || string.IsNullOrEmpty(RepoName)
         ? null
         : $"https://github.com/{RepoOwner}/{RepoName}";
+
+    // I just put AI tags in here so they can't be used as regular tags
+    private static readonly HashSet<string> ReservedTags = new(StringComparer.OrdinalIgnoreCase)
+    { "ai-free", "ai-assisted", "vibecoded" };
+
+    [JsonIgnore]
+    public List<ModTag> _Tags { get; private set; } = new();
+
+    public void RebuildTags()
+    {
+        var list = new List<ModTag>();
+
+        // AI badge
+        switch ((Ai ?? "").Trim().ToLowerInvariant())
+        {
+            case "ai-free": list.Add(new ModTag("AI-free", IsAssisted: false, IsVibecoded: false)); break;
+            case "ai-assisted": list.Add(new ModTag("AI-assisted", IsAssisted: true)); break;
+            case "vibecoded": list.Add(new ModTag("Vibecoded", IsVibecoded: true)); break;
+        }
+
+        list.AddRange((Tags ?? new())
+            .Select(tag => (tag ?? "").Trim())
+            .Where(tag => tag.Length is > 0 and <= 24 && !ReservedTags.Contains(tag))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Take(6)
+            .Select(tag => new ModTag(tag)));
+
+        _Tags = list;
+        OnPropertyChanged(nameof(_Tags));
+    }
 
     [JsonIgnore]
     public ObservableCollection<ChangelogEntry> Changelog { get; } = new();

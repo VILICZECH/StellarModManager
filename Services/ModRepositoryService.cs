@@ -87,6 +87,13 @@ public class ModRepositoryService
             mod.RepoOwner = entry.Author;
             mod.RepoName = entry.Repo;
 
+            if (!string.IsNullOrWhiteSpace(entry.Ai))
+            {
+                mod.Ai = entry.Ai; // Override from mods list wins
+                Console.WriteLine($"Override from entry: {entry.Repo}, ai tag is: {entry.Ai}");
+            }
+            mod.RebuildTags();
+
             mod.DownloadUrl = $"https://github.com/{entry.Author}/{entry.Repo}/releases/download/v{mod.Version}/{entry.Repo}.zip";
 
             // grab every image with thumbnail at the same time

@@ -57,7 +57,7 @@ public partial class MainWindowViewModel
             mod.IsInstalling = false;
         }
 
-        // refresh no longer needed
+        // Refresh no longer needed
         LoadInstalledMods();
     }
 
@@ -72,13 +72,13 @@ public partial class MainWindowViewModel
                 "https://voxar.dev/mods.json"
             );
         }
-        // catch failed refresh
+        // Catch failed refresh
         catch (Exception ex)
         {
             ReportError("StatusRefreshFailed", ex.Message);
             return;
         }
-        // remove old mods when finding mods
+        // Remove old mods when finding mods
         foreach (var gone in OnlineMods.Where(o => mods.All(m => m.Id != o.Id)).ToList())
             OnlineMods.Remove(gone);
 
@@ -93,6 +93,9 @@ public partial class MainWindowViewModel
 
                 existing.Name = mod.Name;
                 existing.Author = mod.Author;
+                existing.Ai = mod.Ai;
+                existing.Tags = mod.Tags;
+                existing.RebuildTags();
                 existing.Version = mod.Version;
                 existing.Description = mod.Description;
                 existing.DownloadUrl = mod.DownloadUrl;
@@ -122,6 +125,7 @@ public partial class MainWindowViewModel
             }
             else
             {
+                mod.RebuildTags();
                 OnlineMods.Add(mod);
             }
         }

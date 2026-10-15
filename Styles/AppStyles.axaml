@@ -187,6 +187,33 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
+    <!-- Tags -->
+    <Style Selector="Border.tag">
+        <Setter Property="Background" Value="{DynamicResource Theme.SurfaceBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Theme.BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="Padding" Value="7,1"/>
+    </Style>
+    <Style Selector="Border.tag TextBlock">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Foreground" Value="{DynamicResource Theme.TextSecondaryBrush}"/>
+    </Style>
+    <Style Selector="Border.tag.assisted">
+        <Setter Property="Background" Value="#F2B84B"/>
+        <Setter Property="BorderBrush" Value="#F2B84B"/>
+    </Style>
+    <Style Selector="Border.tag.vibecoded">
+        <Setter Property="Background" Value="#E5694F"/>
+        <Setter Property="BorderBrush" Value="#E5694F"/>
+    </Style>
+    <Style Selector="Border.tag.assisted TextBlock">
+        <Setter Property="Foreground" Value="#1B1B1B"/>
+    </Style>
+    <Style Selector="Border.tag.vibecoded TextBlock">
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
     <!-- Info bars and cards -->
     <Style Selector="Border.infoBar">
         <Setter Property="Background" Value="{DynamicResource Theme.SurfaceBrush}"/>
