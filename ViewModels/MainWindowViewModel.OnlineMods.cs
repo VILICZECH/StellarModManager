@@ -69,7 +69,7 @@ public partial class MainWindowViewModel
         try
         {
             mods = await repositoryService.GetModsAsync(
-                "https://voxar.dev/mods.json"
+                "https://jollyname.dev/mods.json"
             );
         }
         // catch failed refresh
