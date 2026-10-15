@@ -24,7 +24,7 @@ Stellar Mod Manager makes it easier to install, update, and manage mods for Stel
 
 Want to make your mod available to other StellarDrive players? You can submit your mod for inclusion in Stellar Mod Manager.
 
-Visit the [Mod Submission page](https://voxar.dev/submit/) to submit your mod for review.
+Visit the [Mod Submission page](https://jollyname.dev/submit/) to submit your mod for review.
 
 ## Download
 
