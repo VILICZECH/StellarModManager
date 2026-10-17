@@ -83,4 +83,6 @@
   "StatusUpdatedNotDeployed": "{0} обновлён до {1}. Установите его в игру, чтобы использовать.",
   "StatusUpdateFailed": "Ошибка обновления: {0}",
   "Videos": "Видео"
+  "DevelopmentActive": "В разработке",
+  "DevelopmentInactive": "Неактивен"
 }
